@@ -1,0 +1,15 @@
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+sqlalchemy==2.0.36
+python-dotenv==1.0.1
+python-multipart==0.0.20
+pydantic==2.10.4
+pandas==2.2.3
+pdfplumber==0.11.4
+openai>=1.0.0
+streamlit==1.41.1
+plotly==5.24.1
+requests==2.32.3
+openpyxl==3.1.5
+numpy==1.26.4
+pikepdf>=9.4.0

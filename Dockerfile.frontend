@@ -1,0 +1,19 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY frontend/ ./frontend/
+
+# Streamlit config
+RUN mkdir -p /root/.streamlit
+RUN echo '[server]\nheadless = true\nport = 8501\naddress = "0.0.0.0"\n\n[browser]\ngatherUsageStats = false' > /root/.streamlit/config.toml
+
+# Create secrets.toml with backend URL (overridden by env var at runtime)
+RUN echo 'BACKEND_URL = "http://backend:8000"' > /root/.streamlit/secrets.toml
+
+EXPOSE 8501
+
+CMD ["streamlit", "run", "frontend/app.py"]
