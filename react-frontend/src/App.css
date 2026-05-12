@@ -1,0 +1,6 @@
+/* App.css — reset leftover Vite defaults */
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
