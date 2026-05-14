@@ -73,7 +73,13 @@ export default function DashboardPage({ userId, selectedMonth, onMonthChange, av
 
   if (!summary) return <div style={{ padding: '2rem' }}><p className="text-danger">Could not load summary.</p></div>;
 
-  const catData = Object.entries(JSON.parse(summary.category_breakdown || '{}')).map(([name, value]) => ({ name, value }));
+  const safeParse = (data) => {
+    if (!data) return {};
+    if (typeof data === 'object') return data;
+    try { return JSON.parse(data); } catch { return {}; }
+  };
+
+  const catData = Object.entries(safeParse(summary.category_breakdown)).map(([name, value]) => ({ name, value }));
   const trendData = comparison?.summaries?.map(s => ({
     name: `${MONTHS[s.month - 1]} ${s.year}`,
     Income: s.total_income,
@@ -200,7 +206,7 @@ export default function DashboardPage({ userId, selectedMonth, onMonthChange, av
           <div>
             <p className="text-sm text-secondary">Total this month: <span className="font-bold text-accent">{fmtNum(summary.subscription_total)}</span></p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '.5rem', marginTop: '.75rem' }}>
-              {Object.entries(JSON.parse(summary.subscription_list || '{}')).map(([m, a]) => (
+              {Object.entries(safeParse(summary.subscription_list)).map(([m, a]) => (
                 <span key={m} className="badge badge-sub">{m} · {fmtNum(a)}</span>
               ))}
             </div>
